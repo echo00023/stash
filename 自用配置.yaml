@@ -1,0 +1,742 @@
+
+# 下载配置后，需要自行添加机场订阅链接
+# 找到 #远程订阅(代理集合) 部分，将 MyProxy 部分的 url 链接地址更换为自己的机场订阅链接
+# 此处推荐使用Sub-Store订阅链接，多机场用户可以将多个机场订阅整合为一个 Sub-Store 订阅
+
+mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+mode: Rule
+log-level: silent
+external-controller: 127.0.0.1:9090
+
+#DNS设置
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  #DNS服务器
+  default-nameserver:
+    - 119.29.29.29
+    - 119.28.28.28
+    - 223.5.5.5
+    - 114.114.114.114
+  #DoH服务器
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.dns.sb/dns-query
+  # 跳过证书验证，解决部分兼容性问题 https://help.nextdns.io/t/g9hdkjz
+  skip-cert-verify: true
+
+  # 对部分域名使用单独的 DNS 服务器
+  nameserver-policy:
+    'www.baidu.com': 114.114.114.114
+    '+.internal.crop.com': system
+
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  #列表中的域名将不会被解析为fake ip，这些域名相关的解析请求将会返回它们真实的IP地址
+  fake-ip-filter:
+    - '*.lan'
+    - localhost.ptlogin2.qq.com
+    - '+.srv.nintendo.net'
+    - '+.stun.playstation.net'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - '+.xboxlive.com'
+    - 'msftconnecttest.com'
+    - 'xbox.*.microsoft.com'
+    - '*.battlenet.com.cn'
+    - '*.battlenet.com'
+    - '*.blzstatic.cn'
+    - '*.battle.net'
+
+#本地代理
+proxies:
+
+#远程订阅(代理集合)
+proxy-providers:
+
+  MyProxy: &MyProxy #建立锚点
+     #多机场用户请使用Sub-Store生成自己的订阅地址并替换以下url地址
+    url: http://sub.store/download/collection/%E9%9A%8F%E4%BE%BF
+    interval: 86400
+    health-check:
+      enable: true
+      interval: 3600
+      url: http://cp.cloudflare.com/generate_204
+      
+  #美国节点
+  MyProxy-US:
+    <<: *MyProxy #引用锚点内容
+    filter: "美|美国|\U0001F1FA\U0001F1F8|US|us|United States"
+  
+  #香港节点
+  MyProxy-HK:
+    <<: *MyProxy #引用锚点内容
+    filter: "HK|香港|港|\U0001F1ED\U0001F1F0|Hong Kong|HKG"
+  
+  #日本节点
+  MyProxy-JP:
+    <<: *MyProxy #引用锚点内容
+    filter: "日|日本|东京|\U0001F1EF\U0001F1F5|JP|Japan"
+  
+  #台湾节点
+  MyProxy-TW:
+    <<: *MyProxy #引用锚点内容
+    filter: "台|台湾|TW|\U0001f1f9\U0001f1fc"
+  
+  #新加坡节点
+  MyProxy-SG:
+    <<: *MyProxy #引用锚点内容
+    filter: "城|新|新加坡|\U0001F1F8\U0001F1EC|SG|Singapore"
+    
+  #韩国节点
+  MyProxy-KR:
+    <<: *MyProxy #引用锚点内容
+    filter: "韩国|韩|KR|kr|Korea|\U0001f1f0\U0001f1f7"
+
+  #澳大利亚节点
+  MyProxy-AU:
+    <<: *MyProxy #引用锚点内容
+    filter: "AU|Australia|澳大利亚|澳|\U0001f1e6\U0001f1fa"
+
+  #美洲节点
+  MyProxy-AS:
+    <<: *MyProxy #引用锚点内容
+    filter: "AR|Argentina|阿根廷|BR|Brazil|巴西|CA|Canada|加拿大|MX|Mexico|墨西哥|UY|Uruguay|乌拉圭"
+
+  #欧洲节点
+  MyProxy-EU:
+    <<: *MyProxy #引用锚点内容
+    filter: "法国|英国|卢森堡|荷兰|摩纳哥|德国|瑞士|波兰|捷克|冰岛|丹麦|挪威|瑞典|芬兰|俄罗斯|乌克兰|立陶宛|葡萄牙|西班牙|意大利|塞尔维亚|克罗地亚|梵蒂冈|希腊|France|United Kingdom|Ireland|Netherlands|Monaco|Germany|Austria|Finland|Russia|Belarus|Ukraine|Moldova|Romania|Bulgaria|Azerbaijan|Armenia|Georgia|Portugal|Spain|Italy|Serbia|Croatia|Vatican|Slovenia|Greece|AT|BE|BG|CH|CZ|DE|DK|EE|ES|FI|FR|GB|GR|HR|HU|IE|IS|IT|LT|LV|MC|MD|MT|NL|NO|PL|PT|RO|RU|SE|SK|SM|UA|UK|VA|YU"
+
+  #东南亚节点
+  MyProxy-SA:
+    <<: *MyProxy #引用锚点内容
+    filter: "BN|Brunei|文莱|BT|Bhutan|不丹|IN|India|印度|IQ|Iraq|伊拉克|LA|Laos|老挝|LB|Lebanon|黎巴嫩|LU|Luxembourg|卢森堡|MV|Maldives|马尔代夫|MY|Malaysia|马来西亚|PH|Philippines|菲律宾|TH|Thailand|泰国|VN|Viet Nam|越南|AE|United Arab Emirates|阿联酋"
+
+  #南极洲节点
+  MyProxy-AQ:
+    <<: *MyProxy #引用锚点内容
+    filter: "南极|南极洲|AQ|Antarctica|\U0001f1e6\U0001f1f6"
+
+#策略组
+proxy-groups:
+
+- name: Proxy
+  type: select
+  use:
+    - MyProxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Proxy.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Auto-HK
+  type: url-test
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Auto.png
+  use:
+    - MyProxy-HK
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: US
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/US.png
+  use:
+    - MyProxy-US
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: HK
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/HK02.png
+  use:
+    - MyProxy-HK
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: JP
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/JP.png
+  use:
+    - MyProxy-JP
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: TW
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW.png
+  use:
+    - MyProxy-TW
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: SG
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/SG.png
+  use:
+    - MyProxy-SG
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+    
+- name: KR
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/KR.png
+  use:
+    - MyProxy-KR
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: AU
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/AU.png
+  use:
+    - MyProxy-AU
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: EU
+  type: select
+  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/Flag_of_Europe.svg.png
+  use:
+    - MyProxy-EU
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: AS
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/CA.png
+  use:
+    - MyProxy-AS
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: SA
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/CN.png
+  use:
+    - MyProxy-SA
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: AQ
+  type: select
+  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/flag-antarctica_1f1e6-1f1f6 (1).png
+  use:
+    - MyProxy-AQ
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+
+- name: Globle
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Outside.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: GlobleMedia
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/GMedia.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Netflix
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Netflix.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Disney+
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Disney+.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: HBO
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/HBO.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Youtube
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Youtube.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Spotify
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Spotify.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: TikTok
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Tiktok.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Bilibili
+  type: select
+  proxies:
+  - HK
+  - TW
+  - US
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Bilibili.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Telegram
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Telegram.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Twitter
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Twitter.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Openai
+  type: select
+  proxies:
+    - US
+    - HK
+    - JP
+    - TW
+    - SG
+    - KR
+    - EU
+    - AU
+    - AS
+    - SA
+    - AQ
+    - Final
+    - DIRECT
+    - Proxy
+  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/icon.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: PayPal
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Paypal.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+
+- name: Apple
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Apple.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Google
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Google.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Microsoft
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Microsoft.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+
+- name: Mainland
+  type: select
+  proxies:
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - Final
+  - DIRECT
+  - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Mainland.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Final
+  type: select
+  proxies:
+  - DIRECT
+  - Auto-HK
+  - Proxy
+  - US
+  - HK
+  - JP
+  - TW
+  - SG
+  - KR
+  - EU
+  - AU
+  - AS
+  - SA
+  - AQ
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Final01.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+#远程规则集合声明
+rule-providers:
+
+  Netflix-rules:
+    behavior: domain
+    interval: 86400
+    name: Netflix
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/netflix.yaml
+
+  Disney-rules:
+    behavior: domain
+    interval: 86400
+    name: Disney
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/disney.yaml
+
+  HBO-rules:
+    behavior: domain
+    interval: 86400
+    name: HBO
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/hbo.yaml
+
+  Youtube-rules:
+    behavior: domain
+    interval: 86400
+    name: Youtube
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/youtube.yaml
+
+  Spotify-rules:
+    behavior: domain
+    interval: 86400
+    name: Spotify
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/spotify.yaml
+
+  TikTok-rules:
+    behavior: domain
+    interval: 86400
+    name: TikTok
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/tiktok.yaml
+
+  Bilibili-rules:
+    behavior: domain
+    interval: 86400
+    name: Bilibili
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/bilibili.yaml
+
+  Telegram-rules:
+    behavior: domain
+    interval: 86400
+    name: Telegram
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/telegram.yaml
+
+
+  Twitter-rules:
+    behavior: domain
+    interval: 86400
+    name: Twitter
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/twitter.yaml
+
+  Openai-rules:
+    behavior: domain
+    interval: 86400
+    name: Openai
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/openai.yaml
+
+  PayPal-rules:
+    behavior: domain
+    interval: 86400
+    name: PayPal
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/paypal.yaml
+
+  Apple-rules:
+    behavior: domain
+    interval: 86400
+    name: Apple
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/apple.yaml
+
+  Google-rules:
+    behavior: domain
+    interval: 86400
+    name: Google
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/google.yaml
+
+  Microsoft-rules:
+    behavior: domain
+    interval: 86400
+    name: Microsoft
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/microsoft.yaml
+
+  Mainland-rules:
+    behavior: domain
+    interval: 86400
+    name: Mainland
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/cn.yaml
+  MainlandIP-rules:
+    behavior: ipcidr
+    interval: 86400
+    name: MainlandIP
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/release/rule/Clash/ChinaIPs/ChinaIPs_IP.yaml
+
+  Globle-rules:
+    behavior: domain
+    interval: 86400
+    name:   Globle
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global_Domain.yaml
+  GlobleMedia-rules:
+    behavior: domain
+    interval: 86400
+    name:   GlobleMedia
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Domain.yaml
+
+  CF-rules:
+    behavior: domain
+    interval: 86400
+    name: CF
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/cloudflare.yaml
+
+#分流规则引用
+rules:
+- RULE-SET,Netflix-rules,Netflix
+- RULE-SET,Disney-rules,Disney+
+- RULE-SET,HBO-rules,HBO
+- RULE-SET,Youtube-rules,Youtube
+- RULE-SET,Spotify-rules,Spotify
+- RULE-SET,TikTok-rules,TikTok
+- RULE-SET,Bilibili-rules,Bilibili
+- RULE-SET,Telegram-rules,Telegram
+- RULE-SET,Twitter-rules,Twitter
+- RULE-SET,Openai-rules,Openai
+- RULE-SET,PayPal-rules,PayPal
+- RULE-SET,Apple-rules,Apple
+- RULE-SET,Google-rules,Google
+- RULE-SET,Microsoft-rules,Microsoft
+- RULE-SET,Mainland-rules,Mainland
+- RULE-SET,MainlandIP-rules,Mainland
+- RULE-SET,Globle-rules,Globle
+- RULE-SET,GlobleMedia-rules,GlobleMedia
+- RULE-SET,CF-rules,CF
+- GEOIP,CN,DIRECT
+- MATCH,Final
