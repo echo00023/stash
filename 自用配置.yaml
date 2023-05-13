@@ -83,17 +83,17 @@ proxy-providers:
   #台湾节点
   MyProxy-TW:
     <<: *MyProxy #引用锚点内容
-    filter: "台|台湾|TW|\uD83C\uDDF9\uD83C\uDDFC|\U0001f1f9\U0001f1fc"
+    filter: "台|台湾|TW|\U0001f1f9\U0001f1fc"
   
   #新加坡节点
   MyProxy-SG:
     <<: *MyProxy #引用锚点内容
-    filter: "城|新|新加坡|\U0001F1F8\U0001F1EC|SG|\uD83C\uDDF8\uD83C\uDDEC|Singapore"
+    filter: "城|新|新加坡|\U0001F1F8\U0001F1EC|SG|Singapore"
     
   #韩国节点
   MyProxy-KR:
     <<: *MyProxy #引用锚点内容
-    filter: "韩国|韩|KR|kr|Korea|\U0001f1f0\U0001f1f7|\uD83C\uDDF0\uD83C\uDDF7"
+    filter: "韩国|韩|KR|kr|Korea|\U0001f1f0\U0001f1f7"
 
   #澳大利亚节点
   MyProxy-AU:
