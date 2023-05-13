@@ -202,7 +202,7 @@ proxy-groups:
 
 - name: EU
   type: select
-  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/EU.png
+  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/下载.PNG
   use:
     - MyProxy-EU
   interval: 300 # 每 300s 检查一次
