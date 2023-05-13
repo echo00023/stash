@@ -58,7 +58,7 @@ proxy-providers:
 
   MyProxy: &MyProxy #建立锚点
      #多机场用户请使用Sub-Store生成自己的订阅地址并替换以下url地址
-    url: http://sub.store/download/collection/%E9%9A%8F%E4%BE%BF
+    url: https://sub.store/download/collection/MySub
     interval: 86400
     health-check:
       enable: true
@@ -83,17 +83,17 @@ proxy-providers:
   #台湾节点
   MyProxy-TW:
     <<: *MyProxy #引用锚点内容
-    filter: "台|台湾|TW|\U0001f1f9\U0001f1fc"
+    filter: "台|台湾|TW|\uD83C\uDDF9\uD83C\uDDFC|\U0001f1f9\U0001f1fc"
   
   #新加坡节点
   MyProxy-SG:
     <<: *MyProxy #引用锚点内容
-    filter: "城|新|新加坡|\U0001F1F8\U0001F1EC|SG|Singapore"
+    filter: "城|新|新加坡|\U0001F1F8\U0001F1EC|SG|\uD83C\uDDF8\uD83C\uDDEC|Singapore"
     
   #韩国节点
   MyProxy-KR:
     <<: *MyProxy #引用锚点内容
-    filter: "韩国|韩|KR|kr|Korea|\U0001f1f0\U0001f1f7"
+    filter: "韩国|韩|KR|kr|Korea|\U0001f1f0\U0001f1f7|\uD83C\uDDF0\uD83C\uDDF7"
 
   #澳大利亚节点
   MyProxy-AU:
@@ -103,17 +103,17 @@ proxy-providers:
   #美洲节点
   MyProxy-AS:
     <<: *MyProxy #引用锚点内容
-    filter: "AR|Argentina|阿根廷|BR|Brazil|巴西|CA|Canada|加拿大|MX|Mexico|墨西哥|UY|Uruguay|乌拉圭"
+    filter: "AR|Argentina|阿根廷|BR|Brazil|巴西|CA|Canada|加拿大|MX|Mexico|墨西哥|UY|Uruguay|乌拉圭|阿根廷|🇦🇷|玻利维亚|🇧🇴|巴西|🇧🇷|智利|🇨🇱|哥伦比亚|🇨🇴|厄瓜多尔|🇪🇨|福克兰群岛|🇫🇰|法属圭亚那|🇬🇫|圭亚那|🇬🇾|巴拉圭|🇵🇾|秘鲁|🇵🇪|苏里南|🇸🇷|乌拉圭|🇺🇾|委内瑞拉|🇻🇪"
 
   #欧洲节点
   MyProxy-EU:
     <<: *MyProxy #引用锚点内容
-    filter: "法国|英国|卢森堡|荷兰|摩纳哥|德国|瑞士|波兰|捷克|冰岛|丹麦|挪威|瑞典|芬兰|俄罗斯|乌克兰|立陶宛|葡萄牙|西班牙|意大利|塞尔维亚|克罗地亚|梵蒂冈|希腊|France|United Kingdom|Ireland|Netherlands|Monaco|Germany|Austria|Finland|Russia|Belarus|Ukraine|Moldova|Romania|Bulgaria|Azerbaijan|Armenia|Georgia|Portugal|Spain|Italy|Serbia|Croatia|Vatican|Slovenia|Greece|AT|BE|BG|CH|CZ|DE|DK|EE|ES|FI|FR|GB|GR|HR|HU|IE|IS|IT|LT|LV|MC|MD|MT|NL|NO|PL|PT|RO|RU|SE|SK|SM|UA|UK|VA|YU"
+    filter: "阿尔巴尼亚|🇦🇱|安道尔|🇦🇩|奥地利|🇦🇹|白俄罗斯|🇧🇾|比利时|🇧🇪|波黑|🇧🇦|保加利亚|🇧🇬|克罗地亚|🇭🇷|塞浦路斯|🇨🇾|捷克共和国|🇨🇿|丹麦|🇩🇰|爱沙尼亚|🇪🇪|芬兰|🇫🇮|法国|🇫🇷|德国|🇩🇪|希腊|🇬🇷|匈牙利|🇭🇺|冰岛|🇮🇸|爱尔兰|🇮🇪|意大利|🇮🇹|科索沃|🇽🇰|拉脱维亚|🇱🇻|列支敦士登|🇱🇮|立陶宛|🇱🇹|卢森堡|🇱🇺|北马其顿|🇲🇰|马耳他|🇲🇹|摩尔多瓦|🇲🇩|摩纳哥|🇲🇨|黑山|🇲🇪|荷兰|🇳🇱|挪威|🇳🇴|波兰|🇵🇱|葡萄牙|🇵🇹|罗马尼亚|🇷🇴|俄罗斯|🇷🇺|圣马力诺|🇸🇲|梵蒂冈|🇻🇦|塞尔维亚|🇷🇸|斯洛伐克|🇸🇰|斯洛文尼亚|🇸🇮|西班牙|🇪🇸|瑞典|🇸🇪|瑞士|🇨🇭|乌克兰|🇺🇦|英国|🇬🇧|瑞士|🇨🇭|瑞士|AT|BE|CH|CZ|DE|DK|EE|ES|FI|FR|GB|GR|HR|HU|IS|IT|LT|LV|MC|MD|MT|NL|NO|PL|PT|RO|RU|SE|SK|SM|UA|UK|VA|YU|France|United Kingdom|Ireland|Netherlands|Monaco|Germany|Austria|Finland|Russia|Belarus|Ukraine|Moldova|Romania|Bulgaria|Azerbaijan|Armenia|Georgia|Portugal|Spain|Italy|Serbia|Croatia|Vatican|Slovenia|Greece|Great Britain"
 
   #东南亚节点
   MyProxy-SA:
     <<: *MyProxy #引用锚点内容
-    filter: "BN|Brunei|文莱|BT|Bhutan|不丹|IN|India|印度|IQ|Iraq|伊拉克|LA|Laos|老挝|LB|Lebanon|黎巴嫩|LU|Luxembourg|卢森堡|MV|Maldives|马尔代夫|MY|Malaysia|马来西亚|PH|Philippines|菲律宾|TH|Thailand|泰国|VN|Viet Nam|越南|AE|United Arab Emirates|阿联酋"
+    filter: "BN|Brunei|文莱|BT|Bhutan|不丹|IN|India|印度|IQ|Iraq|伊拉克|LA|Laos|老挝|LB|Lebanon|黎巴嫩|LU|Luxembourg|卢森堡|MV|Maldives|马尔代夫|MY|Malaysia|马来西亚|PH|Philippines|菲律宾|TH|Thailand|泰国|VN|Viet Nam|越南|AE|United Arab Emirates|阿联酋|🇮🇱|约旦|🇯🇴|亚美尼亚|🇦🇲|澳门|🇲🇴|塞浦路斯|蒙古|🇲🇳|缅甸|🇲🇲|尼泊尔|🇳🇵|阿联酋|🇦🇪|乌兹别克斯坦|🇺🇿|巴布亚新几内亚|🇵🇬|吉尔吉斯斯坦|🇰🇬|柬埔寨|🇰🇭|卡塔尔|🇶🇦|科威特|🇰🇼|老挝|🇱🇦|黎巴嫩|🇱🇧"
 
   #南极洲节点
   MyProxy-AQ:
@@ -122,25 +122,6 @@ proxy-providers:
 
 #策略组
 proxy-groups:
-
-- name: Cloudflare
-  type: wireguard
-  server: engage.nanocat.me # domain is supported
-  port: 2408
-  ip: 172.16.0.2
-  ipv6: 2606:4700:110:8403:fef5:f176:79fc:8049 # optional
-  private-key: IBfFyWUyT4zhe3K2vJ7UqYY/W13CnqdtvW5FVjT1Mmg= 
-  public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo= # peer public key
-   # preshared-key: # optional
-  dns: [162.159.36.1, 2606:4700:4700::1111] # optional
-  mtu: 1280 # optional
-  reserved: [149,69,186] # optional
-  keepalive: 45 # optional
-# underlying-proxy: # optional
-# type: trojan
-# server: your-underlying-proxy
-# port: 443
-# password: your-password
 
 - name: Proxy
   type: select
@@ -216,7 +197,7 @@ proxy-groups:
 
 - name: EU
   type: select
-  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/Flag_of_Europe.svg.png
+  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/Stash/EU.png
   use:
     - MyProxy-EU
   interval: 300 # 每 300s 检查一次
@@ -240,7 +221,7 @@ proxy-groups:
 
 - name: AQ
   type: select
-  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/flag-antarctica_1f1e6-1f1f6 (1).png
+  icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/flag-antarctica_1f1e6-1f1f6.png
   use:
     - MyProxy-AQ
   interval: 300 # 每 300s 检查一次
@@ -414,6 +395,28 @@ proxy-groups:
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Tiktok.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+- name: Pornhub
+  type: select
+  proxies:
+    - US
+    - HK
+    - JP
+    - TW
+    - SG
+    - KR
+    - EU
+    - AU
+    - AS
+    - SA
+    - AQ
+    - Final
+    - DIRECT
+    - Proxy
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Pornhub.png
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
 
 - name: Bilibili
   type: select
@@ -659,6 +662,12 @@ rule-providers:
     name: TikTok
     url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/tiktok.yaml
 
+  Pornhub-rules:
+    behavior: domain
+    interval: 86400
+    name: Pornhub
+    url: https://raw.githubusercontent.com/RS0485/V2rayDomains2Clash/generated/pornhub.yaml
+
   Bilibili-rules:
     behavior: domain
     interval: 86400
@@ -744,6 +753,7 @@ rules:
 - RULE-SET,Youtube-rules,Youtube
 - RULE-SET,Spotify-rules,Spotify
 - RULE-SET,TikTok-rules,TikTok
+- RULE-SET,Pornhub-rules,Pornhub
 - RULE-SET,Bilibili-rules,Bilibili
 - RULE-SET,Telegram-rules,Telegram
 - RULE-SET,Twitter-rules,Twitter
