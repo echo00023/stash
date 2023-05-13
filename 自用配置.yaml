@@ -123,6 +123,25 @@ proxy-providers:
 #策略组
 proxy-groups:
 
+- name: Cloudflare
+  type: wireguard
+  server: engage.nanocat.me # domain is supported
+  port: 2408
+  ip: 172.16.0.2
+  ipv6: 2606:4700:110:8403:fef5:f176:79fc:8049 # optional
+  private-key: IBfFyWUyT4zhe3K2vJ7UqYY/W13CnqdtvW5FVjT1Mmg= 
+  public-key: bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo= # peer public key
+   # preshared-key: # optional
+  dns: [162.159.36.1, 2606:4700:4700::1111] # optional
+  mtu: 1280 # optional
+  reserved: [149,69,186] # optional
+  keepalive: 45 # optional
+# underlying-proxy: # optional
+# type: trojan
+# server: your-underlying-proxy
+# port: 443
+# password: your-password
+
 - name: Proxy
   type: select
   use:
