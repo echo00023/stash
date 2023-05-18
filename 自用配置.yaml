@@ -3,6 +3,10 @@
 # 找到 #远程订阅(代理集合) 部分，将 MyProxy 部分的 url 链接地址更换为自己的机场订阅链接
 # 此处推荐使用Sub-Store订阅链接，多机场用户可以将多个机场订阅整合为一个 Sub-Store 订阅
 
+subscribe-url:
+# 替换上面文字用于Stash获取机场流量信息并在主页显示
+
+
 mixed-port: 7890
 allow-lan: true
 bind-address: '*'
@@ -13,20 +17,20 @@ external-controller: 127.0.0.1:9090
 #DNS设置
 dns:
   enable: true
-  listen: 0.0.0.0:53
+  listen: 127.0.0.1:8853
   #DNS服务器
   default-nameserver:
-    - 119.29.29.29
-    - 119.28.28.28
     - 223.5.5.5
     - 114.114.114.114
+    - system
+    - 8.8.4.4
   #DoH服务器
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.dns.sb/dns-query
   # 跳过证书验证，解决部分兼容性问题 https://help.nextdns.io/t/g9hdkjz
   skip-cert-verify: true
-
+  ipv6: false
   # 对部分域名使用单独的 DNS 服务器
   nameserver-policy:
     'www.baidu.com': 114.114.114.114
@@ -36,20 +40,101 @@ dns:
   fake-ip-range: 198.18.0.1/16
   #列表中的域名将不会被解析为fake ip，这些域名相关的解析请求将会返回它们真实的IP地址
   fake-ip-filter:
-    - '*.lan'
+    - "*.lan"
+    - "*.localdomain"
+    - "*.example"
+    - "*.invalid"
+    - "*.localhost"
+    - "*.test"
+    - "*.local"
+    - "*.home.arpa"
+    - time.*.com
+    - time.*.gov
+    - time.*.edu.cn
+    - time.*.apple.com
+    - time1.*.com
+    - time2.*.com
+    - time3.*.com
+    - time4.*.com
+    - time5.*.com
+    - time6.*.com
+    - time7.*.com
+    - ntp.*.com
+    - ntp1.*.com
+    - ntp2.*.com
+    - ntp3.*.com
+    - ntp4.*.com
+    - ntp5.*.com
+    - ntp6.*.com
+    - ntp7.*.com
+    - "*.time.edu.cn"
+    - "*.ntp.org.cn"
+    - +.pool.ntp.org
+    - time1.cloud.tencent.com
+    - music.163.com
+    - "*.music.163.com"
+    - "*.126.net"
+    - musicapi.taihe.com
+    - music.taihe.com
+    - songsearch.kugou.com
+    - trackercdn.kugou.com
+    - "*.kuwo.cn"
+    - api-jooxtt.sanook.com
+    - api.joox.com
+    - joox.com
+    - y.qq.com
+    - "*.y.qq.com"
+    - streamoc.music.tc.qq.com
+    - mobileoc.music.tc.qq.com
+    - isure.stream.qqmusic.qq.com
+    - dl.stream.qqmusic.qq.com
+    - aqqmusic.tc.qq.com
+    - amobile.music.tc.qq.com
+    - "*.xiami.com"
+    - "*.music.migu.cn"
+    - music.migu.cn
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+    - msftconnecttest.com
+    - msftncsi.com
     - localhost.ptlogin2.qq.com
-    - '+.srv.nintendo.net'
-    - '+.stun.playstation.net'
-    - '+.msftconnecttest.com'
-    - '+.msftncsi.com'
-    - '+.xboxlive.com'
-    - 'msftconnecttest.com'
-    - 'xbox.*.microsoft.com'
-    - '*.battlenet.com.cn'
-    - '*.battlenet.com'
-    - '*.blzstatic.cn'
-    - '*.battle.net'
-
+    - localhost.sec.qq.com
+    - +.srv.nintendo.net
+    - +.stun.playstation.net
+    - xbox.*.microsoft.com
+    - xnotify.xboxlive.com
+    - +.ipv6.microsoft.com
+    - +.battlenet.com.cn
+    - +.wotgame.cn
+    - +.wggames.cn
+    - +.wowsgame.cn
+    - +.wargaming.net
+    - proxy.golang.org
+    - stun.*.*
+    - stun.*.*.*
+    - +.stun.*.*
+    - +.stun.*.*.*
+    - +.stun.*.*.*.*
+    - heartbeat.belkin.com
+    - "*.linksys.com"
+    - "*.linksyssmartwifi.com"
+    - "*.router.asus.com"
+    - mesu.apple.com
+    - swscan.apple.com
+    - swquery.apple.com
+    - swdownload.apple.com
+    - swcdn.apple.com
+    - swdist.apple.com
+    - lens.l.google.com
+    - stun.l.google.com
+    - "*.square-enix.com"
+    - "*.finalfantasyxiv.com"
+    - "*.ffxiv.com"
+    - "*.ff14.sdo.com"
+    - ff.dorado.sdo.com
+    - "*.mcdn.bilivideo.cn"
+    - +.media.dssott.com
+    - +.pvp.net
 #本地代理
 proxies:
 
@@ -103,7 +188,7 @@ proxy-providers:
   #美洲节点
   MyProxy-AS:
     <<: *MyProxy #引用锚点内容
-    filter: "AR|Argentina|阿根廷|BR|Brazil|巴西|CA|Canada|加拿大|MX|Mexico|墨西哥|UY|Uruguay|乌拉圭|阿根廷|🇦🇷|玻利维亚|🇧🇴|巴西|🇧🇷|智利|🇨🇱|哥伦比亚|🇨🇴|厄瓜多尔|🇪🇨|福克兰群岛|🇫🇰|法属圭亚那|🇬🇫|圭亚那|🇬🇾|巴拉圭|🇵🇾|秘鲁|🇵🇪|苏里南|🇸🇷|乌拉圭|🇺🇾|委内瑞拉|🇻🇪|安圭拉|🇦🇮|安提瓜和巴布达|🇦🇬|阿鲁巴|🇦🇼|巴哈马|🇧🇸|巴巴多斯|🇧🇧|伯利兹|🇧🇿|百慕大|🇧🇲|加拿大|🇨🇦|开曼群岛|🇰🇾|哥斯达黎加|🇨🇷|古巴|🇨🇺|库拉索|🇨🇼|多米尼克|🇩🇲|多米尼加共和国|🇩🇴|萨尔瓦多|🇸🇻|格陵兰|🇬🇱|格林纳达|🇬🇩|危地马拉|🇬🇹|海地|🇭🇹|洪都拉斯|🇭🇳|牙买加|🇯🇲|墨西哥|🇲🇽|蒙特塞拉特|🇲🇸|尼加拉瓜|🇳🇮|巴拿马|🇵🇦|波多黎各|🇵🇷|圣基茨和尼维斯|🇰🇳|圣卢西亚|🇱🇨|圣文森特和格林纳丁斯|🇻🇨|特克斯和凯科斯群岛|🇹🇨|美属维京群岛|🇻🇮|英属维京群岛|🇻🇬"
+    filter: "AR|Argentina|阿根廷|BR|Brazil|巴西|CA|Canada|加拿大|MX|Mexico|墨西哥|UY|Uruguay|乌拉圭|阿根廷|🇦🇷|玻利维亚|🇧🇴|巴西|🇧🇷|智利|🇨🇱|哥伦比亚|🇨🇴|厄瓜多尔|🇪🇨|福克兰群岛|🇫🇰|法属圭亚那|🇬🇫|圭亚那|🇬🇾|巴拉圭|🇵🇾|秘鲁|🇵🇪|苏里南|🇸🇷|乌拉圭|🇺🇾|委内瑞拉|🇻🇪|安圭拉|🇦🇮|安提瓜和巴布达|🇦🇬|阿鲁巴|🇦🇼|巴哈马|🇧🇸|巴巴多斯|🇧🇧|伯利兹|🇧🇿|百慕大|🇧🇲|加拿大|🇨🇦|开曼群岛|🇰🇾|哥斯达黎加|🇨🇷|古巴|🇨🇺|库拉索|🇨🇼|多米尼克|🇩🇲|多米尼加共和国|🇩🇴|萨尔瓦多|🇸🇻|美|🇺🇸|格陵兰|🇬🇱|格林纳达|🇬🇩|危地马拉|🇬🇹|海地|🇭🇹|洪都拉斯|🇭🇳|牙买加|🇯🇲|墨西哥|🇲🇽|蒙特塞拉特|🇲🇸|尼加拉瓜|🇳🇮|巴拿马|🇵🇦|波多黎各|🇵🇷|圣基茨和尼维斯|🇰🇳|圣卢西亚|🇱🇨|圣文森特和格林纳丁斯|🇻🇨|特克斯和凯科斯群岛|🇹🇨|美属维京群岛|🇻🇮|英属维京群岛|🇻🇬"
 
   #非洲节点
   MyProxy-AF:
@@ -136,7 +221,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: Auto-HK
+- name: Auto-HK🇭🇰
   type: url-test
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Auto.png
   use:
@@ -144,15 +229,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: US
-  type: select
-  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/US.png
-  use:
-    - MyProxy-US
-  interval: 300 # 每 300s 检查一次
-  lazy: true # 在策略组没有被使用时候，不进行延迟测试
-
-- name: HK
+- name: HK🇭🇰
   type: select
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/HK02.png
   use:
@@ -160,7 +237,17 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: JP
+
+- name: US🇺🇸
+  type: select
+  icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/US.png
+  use:
+    - MyProxy-US
+  interval: 300 # 每 300s 检查一次
+  lazy: true # 在策略组没有被使用时候，不进行延迟测试
+
+
+- name: JP🇯🇵
   type: select
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/JP.png
   use:
@@ -168,7 +255,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: TW
+- name: TW🇹🇼
   type: select
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/TW.png
   use:
@@ -176,7 +263,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: SG
+- name: SG🇸🇬
   type: select
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/SG.png
   use:
@@ -184,7 +271,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
     
-- name: KR
+- name: KR🇰🇷
   type: select
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/KR.png
   use:
@@ -192,7 +279,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: AU
+- name: AU🇦🇺
   type: select
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Country/AU.png
   use:
@@ -233,7 +320,7 @@ proxy-groups:
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
 
-- name: AQ
+- name: AQ🇦🇶
   type: select
   icon: https://raw.githubusercontent.com/echo00023/Rules/main/Stash/flag-antarctica_1f1e6-1f1f6.png
   use:
@@ -245,21 +332,21 @@ proxy-groups:
 - name: Globle
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Outside.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -267,21 +354,21 @@ proxy-groups:
 - name: GlobleMedia
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/GMedia.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -289,21 +376,21 @@ proxy-groups:
 - name: Netflix
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Netflix.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -311,21 +398,21 @@ proxy-groups:
 - name: Disney+
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Disney+.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -333,21 +420,21 @@ proxy-groups:
 - name: HBO
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/HBO.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -355,21 +442,21 @@ proxy-groups:
 - name: Youtube
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Youtube.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -377,21 +464,21 @@ proxy-groups:
 - name: Spotify
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Spotify.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -399,21 +486,21 @@ proxy-groups:
 - name: TikTok
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Tiktok.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -421,17 +508,17 @@ proxy-groups:
 - name: Pornhub
   type: select
   proxies:
-    - US
-    - HK
-    - JP
-    - TW
-    - SG
-    - KR
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
     - EU
-    - AU
     - AS
     - SA
-    - AQ
     - AF
     - Final
     - DIRECT
@@ -444,18 +531,21 @@ proxy-groups:
 - name: Bilibili
   type: select
   proxies:
-  - HK
-  - TW
-  - US
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Bilibili.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -463,21 +553,21 @@ proxy-groups:
 - name: Telegram
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Telegram.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -485,21 +575,21 @@ proxy-groups:
 - name: Twitter
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Twitter.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -507,17 +597,17 @@ proxy-groups:
 - name: Openai
   type: select
   proxies:
-    - US
-    - HK
-    - JP
-    - TW
-    - SG
-    - KR
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
     - EU
-    - AU
     - AS
     - SA
-    - AQ
     - AF
     - Final
     - DIRECT
@@ -529,21 +619,21 @@ proxy-groups:
 - name: PayPal
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Paypal.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -552,21 +642,21 @@ proxy-groups:
 - name: Apple
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Apple.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -574,21 +664,21 @@ proxy-groups:
 - name: Google
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Google.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -596,21 +686,21 @@ proxy-groups:
 - name: Microsoft
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Microsoft.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -619,17 +709,21 @@ proxy-groups:
 - name: Mainland
   type: select
   proxies:
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AF
-  - Final
-  - DIRECT
-  - Proxy
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Mainland.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
@@ -637,21 +731,21 @@ proxy-groups:
 - name: Final
   type: select
   proxies:
-  - DIRECT
-  - Auto-HK
-  - Proxy
-  - US
-  - HK
-  - JP
-  - TW
-  - SG
-  - KR
-  - EU
-  - AU
-  - AS
-  - SA
-  - AQ
-  - AF
+    - US🇺🇸
+    - HK🇭🇰
+    - JP🇯🇵
+    - TW🇹🇼
+    - SG🇸🇬
+    - KR🇰🇷
+    - AU🇦🇺
+    - AQ🇦🇶
+    - EU
+    - AS
+    - SA
+    - AF
+    - Final
+    - DIRECT
+    - Proxy
   icon: https://raw.githubusercontent.com/erdongchanyo/icon/main/Policy-Filter/Final01.png
   interval: 300 # 每 300s 检查一次
   lazy: true # 在策略组没有被使用时候，不进行延迟测试
