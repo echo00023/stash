@@ -3,12 +3,24 @@ subscribe-url:
 # 替换上面文字用于Stash获取机场流量信息并在主页显示
 
 
-mixed-port: 7890
-allow-lan: true
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+allow-lan: false
 bind-address: '*'
 mode: Rule
 log-level: silent
 external-controller: 127.0.0.1:9090
+ipv6: false
+
+hosts:
+  services.googleapis.cn: 216.58.200.67
+  www.google.cn: 216.58.200.67
+clash-for-android:
+  append-system-dns: false
+profile:
+  tracing: true
 
 #DNS设置
 dns:
@@ -18,12 +30,14 @@ dns:
   default-nameserver:
     - 223.5.5.5
     - 114.114.114.114
-    - system
     - 8.8.4.4
+    - 1.0.0.1
   #DoH服务器
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.dns.sb/dns-query
+    - https://223.6.6.6/dns-query
+    - https://rubyfish.cn/dns-query
   # 跳过证书验证，解决部分兼容性问题 https://help.nextdns.io/t/g9hdkjz
   skip-cert-verify: true
   ipv6: false
@@ -31,7 +45,26 @@ dns:
   nameserver-policy:
     'www.baidu.com': 114.114.114.114
     '+.internal.crop.com': system
-
+  fallback:
+    - https://dns.rubyfish.cn/dns-query
+    - https://public.dns.iij.jp/dns-query
+    - tls://8.8.4.4
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+      - 127.0.0.1/32
+    domain:
+      - +.google.com
+      - +.facebook.com
+      - +.twitter.com
+      - +.youtube.com
+      - +.xn--ngstr-lra8j.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.googleapis.com
+      - +.gvt1.com
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   #列表中的域名将不会被解析为fake ip，这些域名相关的解析请求将会返回它们真实的IP地址
@@ -137,82 +170,61 @@ proxies:
 #远程订阅(代理集合)
 proxy-providers:
   AP1:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP1.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
   AP2:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP2.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
   AP3:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP3.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
 
   AP4:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP4.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
   AP5:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP5.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
   AP6:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP6.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
   AP7:
-    type: http
+    url: #订阅链接
     interval: 21600
     health-check:
       enable: true
       url: https://i.ytimg.com/generate_204
       interval: 300
-    path: ./Proxies/AP7.yaml #生成名为'dy1'的配置文件
-    # 将 下面一行的url 替换为你的Clash机场订阅链接
-    url: #你的订阅链接
 
 #策略组
 proxy-groups:
@@ -989,5 +1001,10 @@ rules:
 - RULE-SET,MainlandIP-rules,Mainland
 - RULE-SET,Globle-rules,Globle
 - RULE-SET,GlobleMedia-rules,GlobleMedia
+- GEOIP,google,Google
+- GEOIP,telegram,Telegram
+- GEOIP,netflix,NETFLIX
+- GEOIP,LAN,DIRECT
+- GEOIP,CN,Mainland
 - GEOIP,CN,DIRECT
 - MATCH,Final
